@@ -14,8 +14,8 @@ function App() {
 
   return (
     <>
-      <div>
-        <h1>{data}</h1> {/* This will display the "Hello World" message */}
+      <div className='flex justify-center items-center h-screen font-bold text-7xl bg-gray-400'>
+        <h1>{data}</h1> 
       </div>
     </>
   );
