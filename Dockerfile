@@ -14,11 +14,11 @@ RUN apt-get update && apt-get install -y build-essential libpq-dev && rm -rf /va
 COPY ./requirements.txt /app/backend/requirements.txt
 RUN pip install --upgrade pip --no-cache-dir
 RUN pip install --no-cache-dir -r requirements.txt
-RUN flake8 . || true
 
 # Copy the rest of the application code
 COPY . /app/backend/
 
+RUN python -m compileall .
 # Expose the port your server runs on
 EXPOSE 8000
 
