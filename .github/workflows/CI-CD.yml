@@ -17,39 +17,18 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install React Dependencies
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2  
+        
+      - name: Start Docker Containers
         run: |
-          cd frontend/job_board
-          npm install
+          docker-compose up --build -d
+          sleep 10
+          docker ps
 
-      - name: Run ESLint for React
+      - name: Check Logs for Issues
         run: |
-          cd tech-stack-proposal/frontend/job_board
-          npx eslint . --ext .js,.jsx,.ts,.tsx || true
+          docker-compose logs --tail=50
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.10
-
-      - name: Install Django Dependencies
-        run: |
-          cd tech-stack-proposal
-          pip install -r requirements.txt
-
-      - name: Run Flake8 for Django
-        run: |
-          cd tech-stack-proposal
-          flake8 . || true
-
-      - name: Test Docker Compose Build
-        run: |
-          docker-compose -f docker-compose.yml up --build -d
-          sleep 5
-          docker-compose ps
-          docker-compose down
+      - name: Stop Containers After Check
+        run: docker-compose down
