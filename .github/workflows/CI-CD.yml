@@ -22,7 +22,7 @@ jobs:
         
       - name: Start Docker Containers
         run: |
-          docker-compose up --build -d
+          docker compose up --build -d
           sleep 10
           docker ps
 
