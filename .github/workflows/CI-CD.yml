@@ -28,7 +28,7 @@ jobs:
 
       - name: Check Logs for Issues
         run: |
-          docker-compose logs --tail=50
+          docker compose logs --tail=50
 
       - name: Stop Containers After Check
-        run: docker-compose down
+        run: docker compose down
