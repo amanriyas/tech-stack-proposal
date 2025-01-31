@@ -8,6 +8,8 @@ COPY . ./
 
 RUN npm install
 
+RUN npx eslint . --ext .js,.jsx,.ts,.tsx || true
+
 ENV HOST=0.0.0.0
 
 EXPOSE 5173
