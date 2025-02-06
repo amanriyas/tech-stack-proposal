@@ -23,12 +23,12 @@ jobs:
       - name: Start Docker Containers
         run: |
           docker compose up --build -d
-      #     sleep 10
+          sleep 10
       #     docker ps
 
-      # - name: Check Logs for Issues
-      #   run: |
-      #     docker compose logs --tail=50
+      - name: Check Logs for Issues
+        run: |
+          docker compose logs --tail=50
 
       # - name: Stop Containers After Check
       #   run: docker compose down
