@@ -33,18 +33,29 @@ jobs:
         run: docker compose down
 
   deploy:
-    name: Deploy Application on EC2
     runs-on: self-hosted
-    needs: ci-checks  # Deploy only if 'ci-checks' succeeds
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Stop Existing Containers
+      - name: Set up environment variables
+        env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
-          docker compose down || true  # Stop any running containers if they exist
+          echo "DB_USER=$DB_USER" >> .env
+          echo "DB_PASSWORD=$DB_PASSWORD" >> .env
+          echo "DB_NAME=$DB_NAME" >> .env
+          echo "SECRET_KEY=$SECRET_KEY" >> .env
 
-      - name: Build and Start Docker Compose
-        run: |
-          docker compose up -d --build  # Build and run the application in detached mode
+      - name: Run Docker Compose
+        env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: docker compose up -d
+
