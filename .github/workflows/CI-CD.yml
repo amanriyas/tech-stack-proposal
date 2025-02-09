@@ -12,6 +12,11 @@ jobs:
   ci-checks:
     name: Code Integration Checks
     runs-on: ubuntu-latest
+    env:
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     steps:
       - name: Checkout Code
@@ -36,21 +41,15 @@ jobs:
     runs-on: self-hosted
     needs: ci-checks
 
+    env:
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-
-      - name: Set up environment variables
-        env:
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        run: |
-          echo "DB_USER=$DB_USER" >> .env
-          echo "DB_PASSWORD=$DB_PASSWORD" >> .env
-          echo "DB_NAME=$DB_NAME" >> .env
-          echo "SECRET_KEY=$SECRET_KEY" >> .env
 
       - name: Run Docker Compose
         env:
