@@ -19,7 +19,15 @@ from django.urls import path
 from django.urls.conf import include
 
 
+#GET in order to obtain data from the database
+#POST in order add a new data/multiple data to the database
+#PUT request in order to update an existing entry in the database
+#DELETE to delete
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('student.urls')),
+    path('study-planner/',include('student.urls'))
+    
 ]
