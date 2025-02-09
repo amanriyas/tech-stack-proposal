@@ -30,15 +30,13 @@ SECRET_KEY = 'django-insecure-(nmswwq9a8kd3i5mkqlh#603i&e*1csm3=))!w5a!n=7z1(9l3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ '*']
+ALLOWED_HOSTS = ['*']
 
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:5173',
-      "*"  # Vite's dev server
+      '*' 
 ]
-
 
 # Application definition
 
