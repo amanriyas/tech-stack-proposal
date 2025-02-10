@@ -8,7 +8,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get('http://44.204.1.140:8000/') // Django API endpoint
+      .get('http://54.91.186.163:8000/') // Django API endpoint
       .then((response) => setData(response.data.message)) // Access the `message` key
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
