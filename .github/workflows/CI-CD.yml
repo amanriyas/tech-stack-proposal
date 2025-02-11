@@ -13,29 +13,12 @@ jobs:
     name: Code Integration Checks
     runs-on: ubuntu-latest
     env:
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DB_NAME: ${{ secrets.DB_NAME }}
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        DB_PORT: ${{ secrets.DB_PORT }}
-        DB_HOST: ${{ secrets.DB_HOST }} 
-        SERVER_PORT: ${{ secrets.SERVER_PORT }}
-        POSTGRES_USER: ${{ secrets.DB_USER }}
-        POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        POSTGRES_DB: ${{ secrets.DB_NAME }}
-        
+      DATABASE_URL: postgres://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}
+      DJANGO_SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DEBUG: "True"
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-
-      - name : Print env variables
-        run : |
-          # Example: Print environment variables to check if they are set
-          echo "DB_HOST=${DB_HOST}"
-          echo "DB_PORT=${DB_PORT}"
-          echo "DB_USER=${DB_USER}"
-          echo "DB_NAME=${DB_NAME}"
-          echo "SECRET_KEY=${SECRET_KEY}"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2  
@@ -46,8 +29,7 @@ jobs:
           sleep 10
 
       - name: Check Logs for Issues
-        run: |
-          docker compose logs backend
+        run: docker compose logs --tail=50
 
       - name: Stop Containers After Check
         run: docker compose down
@@ -55,31 +37,120 @@ jobs:
   # deploy:
   #   runs-on: self-hosted
   #   needs: ci-checks
-
   #   env:
-  #       DB_USER: ${{ secrets.DB_USER }}
-  #       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-  #       DB_NAME: ${{ secrets.DB_NAME }}
-  #       SECRET_KEY: ${{ secrets.SECRET_KEY }}
-  #       DB_PORT: ${{ secrets.DB_PORT }}
-  #       DB_HOST: ${{ secrets.DB_HOST }} 
-  #       SERVER_PORT: ${{ secrets.SERVER_PORT }}
-  #       POSTGRES_USER: ${{ secrets.DB_USER }}
-  #       POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
-  #       POSTGRES_DB: ${{ secrets.DB_NAME }}
-        
-        
+  #     DATABASE_URL: postgres://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}
+  #     DJANGO_SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  #     DEBUG: "False"
   #   steps:
   #     - name: Checkout Repository
   #       uses: actions/checkout@v3
 
   #     - name: Run Docker Compose
-  #       run: 
-  #           sudo docker compose down
+  #       run: |
+  #         sudo docker compose down
+  #         sudo docker container prune -f
+  #         sudo docker compose up --build -d
 
-  #           sudo docker container prune -f
 
-  #           sudo docker compose up --build -d
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# name: CI/CD Pipeline
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
+
+# jobs:
+#   ci-checks:
+#     name: Code Integration Checks
+#     runs-on: ubuntu-latest
+#     env:
+#         DB_USER: ${{ secrets.DB_USER }}
+#         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+#         DB_NAME: ${{ secrets.DB_NAME }}
+#         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+#         DB_PORT: ${{ secrets.DB_PORT }}
+#         DB_HOST: ${{ secrets.DB_HOST }} 
+#         SERVER_PORT: ${{ secrets.SERVER_PORT }}
+#         POSTGRES_USER: ${{ secrets.DB_USER }}
+#         POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+#         POSTGRES_DB: ${{ secrets.DB_NAME }}
+        
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v3
+
+#       - name : Print env variables
+#         run : |
+#           # Example: Print environment variables to check if they are set
+#           echo "DB_HOST=${DB_HOST}"
+#           echo "DB_PORT=${DB_PORT}"
+#           echo "DB_USER=${DB_USER}"
+#           echo "DB_NAME=${DB_NAME}"
+#           echo "SECRET_KEY=${SECRET_KEY}"
+
+#       - name: Set up Docker Buildx
+#         uses: docker/setup-buildx-action@v2  
+
+#       - name: Start Docker Containers
+#         run: |
+#           docker compose up --build -d
+#           sleep 10
+
+#       - name: Check Logs for Issues
+#         run: |
+#           docker compose logs backend
+
+#       - name: Stop Containers After Check
+#         run: docker compose down
+
+#   # deploy:
+#   #   runs-on: self-hosted
+#   #   needs: ci-checks
+
+#   #   env:
+#   #       DB_USER: ${{ secrets.DB_USER }}
+#   #       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+#   #       DB_NAME: ${{ secrets.DB_NAME }}
+#   #       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+#   #       DB_PORT: ${{ secrets.DB_PORT }}
+#   #       DB_HOST: ${{ secrets.DB_HOST }} 
+#   #       SERVER_PORT: ${{ secrets.SERVER_PORT }}
+#   #       POSTGRES_USER: ${{ secrets.DB_USER }}
+#   #       POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+#   #       POSTGRES_DB: ${{ secrets.DB_NAME }}
+        
+        
+#   #   steps:
+#   #     - name: Checkout Repository
+#   #       uses: actions/checkout@v3
+
+#   #     - name: Run Docker Compose
+#   #       run: 
+#   #           sudo docker compose down
+
+#   #           sudo docker container prune -f
+
+#   #           sudo docker compose up --build -d
 
            
 
