@@ -129,11 +129,14 @@ jobs:
         POSTGRES_USER: ${{ secrets.DB_USER }}
         POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
         POSTGRES_DB: ${{ secrets.DB_NAME }}
-        
-        
+      
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+
+
+      - name: Print Environment Variables
+        run: env  
 
       - name: Run Docker Compose
         run: 
