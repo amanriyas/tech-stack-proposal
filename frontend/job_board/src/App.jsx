@@ -6,6 +6,7 @@ import { Routes,Route } from 'react-router-dom'
 function App() {
   const [data, setData] = useState(null);
 
+  
   useEffect(() => {
     axios
       .get('http://54.242.95.81:8000/') // Django API endpoint
