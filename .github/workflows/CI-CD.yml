@@ -121,7 +121,7 @@ jobs:
 
       - name: Check Logs for Issues
         run: |
-          docker compose logs backend
+          docker compose logs
 
       - name: Stop Containers After Check
         run: docker compose down
